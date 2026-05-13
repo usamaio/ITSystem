@@ -1,27 +1,43 @@
-<h1>All Tickets</h1>
+{% extends 'base.html' %}
 
-<a href="/tickets/create/">Create Ticket</a>
+{% block content %}
 
-<hr>
+<h1>All Support Tickets</h1>
+
+<br>
 
 {% for ticket in tickets %}
 
+<div class="card">
+
     <h3>{{ ticket.title }}</h3>
+
+    <br>
 
     <p>{{ ticket.description }}</p>
 
-    <p>Priority: {{ ticket.priority }}</p>
+    <br>
 
-    <p>Status: {{ ticket.status }}</p>
+    <p><strong>Priority:</strong> {{ ticket.priority }}</p>
 
-    <p>Category: {{ ticket.category }}</p>
+    <p><strong>Status:</strong> {{ ticket.status }}</p>
 
-    <p>Created By: {{ ticket.created_by }}</p>
+    <p><strong>Category:</strong> {{ ticket.category }}</p>
 
-    <a href="/tickets/update/{{ ticket.id }}/">Edit</a>
+    <p><strong>Due Date:</strong> {{ ticket.due_date }}</p>
 
-    <a href="/tickets/delete/{{ ticket.id }}/">Delete</a>
+    <p><strong>Created By:</strong> {{ ticket.created_by }}</p>
 
-    <hr>
+    <div class="ticket-actions">
+
+        <a href="/tickets/update/{{ ticket.id }}/">Edit</a>
+
+        <a href="/tickets/delete/{{ ticket.id }}/">Delete</a>
+
+    </div>
+
+</div>
 
 {% endfor %}
+
+{% endblock %}

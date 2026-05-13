@@ -1,11 +1,23 @@
-<h1>Update Ticket</h1>
+{% extends 'base.html' %}
 
-<form method="POST">
+{% block content %}
 
-    {% csrf_token %}
+<div class="card">
 
-    {{ form.as_p }}
+    <h1>Update Ticket</h1>
 
-    <button type="submit">Update Ticket</button>
+    <br>
 
-</form>
+    <form method="POST">
+
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit">Update Ticket</button>
+
+    </form>
+
+</div>
+
+{% endblock %}

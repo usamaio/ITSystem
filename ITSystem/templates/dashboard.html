@@ -1,15 +1,21 @@
-<h1>Dashboard</h1>
+{% extends 'base.html' %}
 
-<p>Welcome, {{ user.username }}</p>
+{% block content %}
 
-<a href="/tickets/">View Tickets</a>
+<div class="card">
 
-<br><br>
+    <h1>Dashboard</h1>
 
-<form method="POST" action="/accounts/logout/">
+    <br>
 
-    {% csrf_token %}
+    <p>Welcome, {{ user.username }}</p>
 
-    <button type="submit">Logout</button>
+    <br>
 
-</form>
+    <p>
+        Use the navigation bar to manage support tickets.
+    </p>
+
+</div>
+
+{% endblock %}

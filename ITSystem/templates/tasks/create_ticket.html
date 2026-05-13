@@ -1,11 +1,23 @@
-<h1>Create Ticket</h1>
+{% extends 'base.html' %}
 
-<form method="POST">
+{% block content %}
 
-    {% csrf_token %}
+<div class="card">
 
-    {{ form.as_p }}
+    <h1>Create Ticket</h1>
 
-    <button type="submit">Create Ticket</button>
+    <br>
 
-</form>
+    <form method="POST">
+
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit">Create Ticket</button>
+
+    </form>
+
+</div>
+
+{% endblock %}
