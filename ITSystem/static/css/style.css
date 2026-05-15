@@ -81,3 +81,21 @@ a{
         margin:10px 0;
     }
 }
+
+.message{
+    background:#d4edda;
+    color:#155724;
+    padding:15px;
+    margin-bottom:20px;
+    border-radius:5px;
+}
+
+
+.card{
+    transition:0.3s;
+}
+
+.card:hover{
+    transform:translateY(-3px);
+}
+

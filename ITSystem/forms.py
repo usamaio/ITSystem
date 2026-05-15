@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from .models import Ticket
 
 
 class RegisterForm(UserCreationForm):
@@ -11,12 +12,12 @@ class RegisterForm(UserCreationForm):
         model = User
         fields = ['username', 'email', 'password1', 'password2']
 
-from .models import Ticket
 
 
 class TicketForm(forms.ModelForm):
 
     class Meta:
+
         model = Ticket
 
         fields = [
@@ -27,3 +28,16 @@ class TicketForm(forms.ModelForm):
             'status',
             'category',
         ]
+
+        widgets = {
+
+            'due_date': forms.DateInput(attrs={
+                'type': 'date'
+            }),
+
+            'description': forms.Textarea(attrs={
+                'rows': 5
+            }),
+        }
+
+

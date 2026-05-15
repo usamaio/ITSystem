@@ -6,38 +6,47 @@
 
 <br>
 
-{% for ticket in tickets %}
+{% if tickets %}
 
-<div class="card">
+    {% for ticket in tickets %}
 
-    <h3>{{ ticket.title }}</h3>
+    <div class="card">
 
-    <br>
+        <h3>{{ ticket.title }}</h3>
 
-    <p>{{ ticket.description }}</p>
+        <br>
 
-    <br>
+        <p>{{ ticket.description }}</p>
 
-    <p><strong>Priority:</strong> {{ ticket.priority }}</p>
+        <br>
 
-    <p><strong>Status:</strong> {{ ticket.status }}</p>
+        <p><strong>Priority:</strong> {{ ticket.priority }}</p>
+        <p><strong>Status:</strong> {{ ticket.status }}</p>
+        <p><strong>Category:</strong> {{ ticket.category }}</p>
+        <p><strong>Due Date:</strong> {{ ticket.due_date }}</p>
+        <p><strong>Created By:</strong> {{ ticket.created_by }}</p>
 
-    <p><strong>Category:</strong> {{ ticket.category }}</p>
-
-    <p><strong>Due Date:</strong> {{ ticket.due_date }}</p>
-
-    <p><strong>Created By:</strong> {{ ticket.created_by }}</p>
-
-    <div class="ticket-actions">
-
-        <a href="/tickets/update/{{ ticket.id }}/">Edit</a>
-
-        <a href="/tickets/delete/{{ ticket.id }}/">Delete</a>
+        <div class="ticket-actions">
+            <a href="/tickets/update/{{ ticket.id }}/">Edit</a>
+            <a href="/tickets/delete/{{ ticket.id }}/">Delete</a>
+        </div>
 
     </div>
 
-</div>
+    {% endfor %}
 
-{% endfor %}
+{% else %}
+
+    <div class="card">
+
+        <h3>No Tickets Available</h3>
+
+        <br>
+
+        <p>Create your first support ticket.</p>
+
+    </div>
+
+{% endif %}
 
 {% endblock %}

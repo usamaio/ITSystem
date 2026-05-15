@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 from .forms import RegisterForm
 
@@ -61,6 +62,8 @@ def create_ticket(request):
 
             ticket.save()
 
+            messages.success(request, 'Ticket created successfully.')
+            
             return redirect('ticket_list')
 
     else:
@@ -88,6 +91,8 @@ def update_ticket(request, id):
 
             form.save()
 
+            messages.success(request, 'Ticket updated successfully.')
+            
             return redirect('ticket_list')
 
     else:
@@ -111,7 +116,9 @@ def delete_ticket(request, id):
     if request.method == 'POST':
 
         ticket.delete()
-
+        
+        messages.success(request, 'Ticket deleted successfully.')
+        
         return redirect('ticket_list')
 
     return render(request, 'tasks/delete_ticket.html', {
