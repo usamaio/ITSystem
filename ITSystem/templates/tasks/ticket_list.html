@@ -10,28 +10,80 @@
 
     {% for ticket in tickets %}
 
-    <div class="card">
+        <div class="card">
 
-        <h3>{{ ticket.title }}</h3>
+            <h2>{{ ticket.title }}</h2>
 
-        <br>
+            <br>
 
-        <p>{{ ticket.description }}</p>
+            <p>{{ ticket.description }}</p>
 
-        <br>
+            <br>
 
-        <p><strong>Priority:</strong> {{ ticket.priority }}</p>
-        <p><strong>Status:</strong> {{ ticket.status }}</p>
-        <p><strong>Category:</strong> {{ ticket.category }}</p>
-        <p><strong>Due Date:</strong> {{ ticket.due_date }}</p>
-        <p><strong>Created By:</strong> {{ ticket.created_by }}</p>
+            <!-- STATUS BADGE -->
 
-        <div class="ticket-actions">
-            <a href="/tickets/update/{{ ticket.id }}/">Edit</a>
-            <a href="/tickets/delete/{{ ticket.id }}/">Delete</a>
+            <span class="badge
+                {% if ticket.status == 'Open' %}
+                    open
+                {% elif ticket.status == 'In Progress' %}
+                    progress
+                {% else %}
+                    resolved
+                {% endif %}
+            ">
+                {{ ticket.status }}
+            </span>
+
+            <!-- PRIORITY BADGE -->
+
+            <span class="badge
+                {% if ticket.priority == 'Low' %}
+                    low
+                {% elif ticket.priority == 'Medium' %}
+                    medium
+                {% else %}
+                    high
+                {% endif %}
+            ">
+                {{ ticket.priority }}
+            </span>
+
+            <br><br>
+
+            <p>
+                <strong>Category:</strong>
+                {{ ticket.category }}
+            </p>
+
+            <p>
+                <strong>Due Date:</strong>
+                {{ ticket.due_date }}
+            </p>
+
+            <p>
+                <strong>Created By:</strong>
+                {{ ticket.created_by }}
+            </p>
+
+            <!-- SHOW BUTTONS ONLY TO OWNER OR ADMIN -->
+
+            {% if request.user == ticket.created_by or request.user.is_superuser %}
+
+                <div class="ticket-actions">
+
+                    <a href="/tickets/update/{{ ticket.id }}/">
+                        Edit
+                    </a>
+
+                    <a href="/tickets/delete/{{ ticket.id }}/">
+                        Delete
+                    </a>
+
+                </div>
+
+            {% endif %}
+
         </div>
-
-    </div>
 
     {% endfor %}
 
@@ -39,11 +91,13 @@
 
     <div class="card">
 
-        <h3>No Tickets Available</h3>
+        <h2>No Tickets Available</h2>
 
         <br>
 
-        <p>Create your first support ticket.</p>
+        <p>
+            Create your first support ticket.
+        </p>
 
     </div>
 

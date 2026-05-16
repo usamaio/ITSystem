@@ -2,49 +2,91 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>IT Support Ticket System</title>
 
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
 </head>
 
 <body>
 
-    <div class="navbar">
-        <a href="/">Home</a>
+    <nav class="navbar">
 
-        {% if user.is_authenticated %}
-            <a href="/dashboard/">Dashboard</a>
-            <a href="/tickets/">Tickets</a>
-            <a href="/tickets/create/">Create Ticket</a>
+        <div class="logo">
+            <a href="/">IT Support System</a>
+        </div>
 
-            <form method="POST" action="/accounts/logout/" style="display:inline;">
-                {% csrf_token %}
-                <button type="submit">Logout</button>
-            </form>
+        <div class="nav-links">
 
-        {% else %}
-            <a href="/register/">Register</a>
-            <a href="/accounts/login/">Login</a>
-        {% endif %}
-    </div>
+            {% if user.is_authenticated %}
+
+                <a href="/dashboard/">Dashboard</a>
+
+                <a href="/tickets/">Tickets</a>
+
+                <a href="/tickets/create/">Create Ticket</a>
+
+                <form method="POST" action="/accounts/logout/" class="logout-form">
+
+                    {% csrf_token %}
+
+                    <button type="submit">Logout</button>
+
+                </form>
+
+            {% else %}
+
+                <a href="/register/">Register</a>
+
+                <a href="/accounts/login/">Login</a>
+
+            {% endif %}
+
+        </div>
+
+    </nav>
+
+    {% if messages %}
+
+        <div class="container">
+
+            {% for message in messages %}
+
+                <div class="message {{ message.tags }}">
+
+                    {{ message }}
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% endif %}
 
     <div class="container">
-
-        {% if messages %}
-            {% for message in messages %}
-                <div class="message">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endif %}
 
         {% block content %}
         {% endblock %}
 
     </div>
 
+    <footer class="footer">
+
+        <p>
+            MSc Task Management System Project — Django Based IT Support System
+        </p>
+
+    </footer>
+
 </body>
+
 </html>
+

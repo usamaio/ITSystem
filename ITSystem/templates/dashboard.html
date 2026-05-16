@@ -8,15 +8,47 @@
 
     <br>
 
-    <p>Welcome, {{ user.username }}</p>
+    <p>
+        Welcome, {{ user.username }}
+    </p>
 
     <br>
 
     <p>
-        Manage IT support tickets and technical issues efficiently.
+        Manage IT support tickets and technical support requests efficiently.
     </p>
 
 </div>
+
+<div class="dashboard-grid">
+
+    <div class="stat-card">
+
+        <h2>{{ user.ticket_set.count }}</h2>
+
+        <p>Your Tickets</p>
+
+    </div>
+
+    <div class="stat-card">
+
+        <h2>3</h2>
+
+        <p>Ticket Status Types</p>
+
+    </div>
+
+    <div class="stat-card">
+
+        <h2>4</h2>
+
+        <p>Support Categories</p>
+
+    </div>
+
+</div>
+
+<br>
 
 <div class="card">
 
@@ -37,3 +69,4 @@
 </div>
 
 {% endblock %}
+

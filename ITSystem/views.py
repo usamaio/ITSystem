@@ -2,6 +2,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.shortcuts import get_object_or_404
+from django.contrib import messages
+
 
 from .forms import RegisterForm
 
@@ -63,7 +66,7 @@ def create_ticket(request):
             ticket.save()
 
             messages.success(request, 'Ticket created successfully.')
-            
+
             return redirect('ticket_list')
 
     else:
@@ -78,9 +81,15 @@ def create_ticket(request):
 @login_required
 def update_ticket(request, id):
 
-    ticket = Ticket.objects.get(id=id)
+    ticket = get_object_or_404(Ticket, id=id)
 
     if request.user != ticket.created_by and not request.user.is_superuser:
+        
+        messages.error(
+            request,
+            "Access denied. You cannot edit another user's ticket."
+        )
+
         return redirect('ticket_list')
 
     if request.method == 'POST':
@@ -108,9 +117,15 @@ def update_ticket(request, id):
 @login_required
 def delete_ticket(request, id):
 
-    ticket = Ticket.objects.get(id=id)
+    ticket = get_object_or_404(Ticket, id=id)
 
     if request.user != ticket.created_by and not request.user.is_superuser:
+
+        messages.error(
+            request,
+            "Access denied. You cannot delete another user's ticket."
+        )
+
         return redirect('ticket_list')
 
     if request.method == 'POST':
