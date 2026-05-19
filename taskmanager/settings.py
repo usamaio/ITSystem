@@ -33,6 +33,7 @@ ALLOWED_HOSTS = ["*"]
 
 INSTALLED_APPS = [
 
+'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -136,4 +137,19 @@ STATICFILES_DIRS = [
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+JAZZMIN_SETTINGS = {
+"site_title": "Usama ITSystem Admin",
+"site_header": "Usama ITSystem Management",
+"site_brand": "Usama ITSystem",
+"welcome_sign": "Welcome to Usama ITSystem",
+"copyright": "Usama IT Management",
+"show_sidebar": True,
+"navigation_expanded": True,
+"icons": {
+"Ashu.Support_worker": "fas fa-car",
+"Ashu.Patients": "fas fa-user-cog",
+"Ashu.Task": "fas fa-tools",
+},
+}
 
