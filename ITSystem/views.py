@@ -43,7 +43,15 @@ def dashboard(request):
 
         tickets = Ticket.objects.all().order_by('-id')[:5]
 
-        ticket_count = Ticket.objects.count()
+        total_tickets = Ticket.objects.count()
+
+        active_tickets = Ticket.objects.exclude(
+            status='Resolved'
+        ).count()
+
+        resolved_tickets = Ticket.objects.filter(
+            status='Resolved'
+        ).count()
 
     else:
 
@@ -51,14 +59,30 @@ def dashboard(request):
             assigned_to=request.user
         ).order_by('-id')[:5]
 
-        ticket_count = Ticket.objects.filter(
+        total_tickets = Ticket.objects.filter(
             assigned_to=request.user
+        ).count()
+
+        active_tickets = Ticket.objects.filter(
+            assigned_to=request.user
+        ).exclude(
+            status='Resolved'
+        ).count()
+
+        resolved_tickets = Ticket.objects.filter(
+            assigned_to=request.user,
+            status='Resolved'
         ).count()
 
     context = {
 
         'tickets': tickets,
-        'ticket_count': ticket_count
+
+        'total_tickets': total_tickets,
+
+        'active_tickets': active_tickets,
+
+        'resolved_tickets': resolved_tickets
 
     }
 
@@ -94,13 +118,18 @@ def create_ticket(request):
 
     if request.method == 'POST':
 
-        form = TicketForm(request.POST)
+        form = TicketForm(request.POST, user=request.user)
 
         if form.is_valid():
 
             ticket = form.save(commit=False)
 
             ticket.created_by = request.user
+
+            # STANDARD USER AUTO ASSIGNED TO SELF
+            if not request.user.is_superuser:
+
+                ticket.assigned_to = request.user
 
             ticket.save()
 
@@ -110,13 +139,14 @@ def create_ticket(request):
 
     else:
 
-        form = TicketForm()
+        form = TicketForm(user=request.user)
 
     return render(request, 'tasks/create_ticket.html', {
 
         'form': form
 
     })
+
 
 
 # UPDATE TICKET
@@ -133,7 +163,13 @@ def update_ticket(request, pk):
 
     if request.method == 'POST':
 
-        form = TicketForm(request.POST, instance=ticket)
+        form = TicketForm(
+
+            request.POST,
+            instance=ticket,
+            user=request.user
+
+        )
 
         if form.is_valid():
 
@@ -145,7 +181,12 @@ def update_ticket(request, pk):
 
     else:
 
-        form = TicketForm(instance=ticket)
+        form = TicketForm(
+
+            instance=ticket,
+            user=request.user
+
+        )
 
     return render(request, 'tasks/update_ticket.html', {
 
@@ -179,3 +220,4 @@ def delete_ticket(request, pk):
         'ticket': ticket
 
     })
+

@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<div class="card">
+<div class="form-container">
 
     <h1>Update Ticket</h1>
 
@@ -12,12 +12,43 @@
 
         {% csrf_token %}
 
-        {{ form.as_p }}
+        {% for field in form %}
 
-        <button type="submit">Update Ticket</button>
+            <div class="form-group">
+
+                <label>{{ field.label }}</label>
+
+                <br>
+
+                {{ field }}
+
+                {% if field.errors %}
+
+                    <div class="error-message">
+
+                        {% for error in field.errors %}
+
+                            <p>{{ error }}</p>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+            <br>
+
+        {% endfor %}
+
+        <button type="submit">
+            Update Ticket
+        </button>
 
     </form>
 
 </div>
 
 {% endblock %}
+

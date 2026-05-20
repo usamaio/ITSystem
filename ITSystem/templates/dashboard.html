@@ -24,27 +24,65 @@
 
     <div class="stat-card">
 
-        <h2>{{ user.ticket_set.count }}</h2>
+        <h2>{{ total_tickets }}</h2>
 
-        <p>Your Tickets</p>
+        {% if user.is_superuser %}
+
+            <p>Total Tickets</p>
+
+        {% else %}
+
+            <p>My Tickets</p>
+
+        {% endif %}
 
     </div>
 
     <div class="stat-card">
 
-        <h2>3</h2>
+        <h2>{{ active_tickets }}</h2>
 
-        <p>Ticket Status Types</p>
+        <p>Active Tickets</p>
 
     </div>
 
     <div class="stat-card">
 
-        <h2>4</h2>
+        <h2>{{ resolved_tickets }}</h2>
 
-        <p>Support Categories</p>
+        <p>Resolved Tickets</p>
 
     </div>
+
+</div>
+
+<br>
+
+<div class="card">
+
+    <h2>Recent Tickets</h2>
+
+    <br>
+
+    {% for ticket in tickets %}
+
+        <div class="ticket-card">
+
+            <h3>{{ ticket.title }}</h3>
+
+            <p>Status: {{ ticket.status }}</p>
+
+            <p>Priority: {{ ticket.priority }}</p>
+
+        </div>
+
+        <br>
+
+    {% empty %}
+
+        <p>No tickets available.</p>
+
+    {% endfor %}
 
 </div>
 
@@ -69,4 +107,3 @@
 </div>
 
 {% endblock %}
-
