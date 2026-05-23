@@ -1,54 +1,68 @@
-{% extends 'base.html' %}
+@login_required
+def update_ticket(request, pk):
 
-{% block content %}
+    ticket = get_object_or_404(Ticket, id=pk)
 
-<div class="form-container">
+    # ALLOW:
+    # ADMIN
+    # TICKET CREATOR
+    # ASSIGNED USER
 
-    <h1>Update Ticket</h1>
+    allowed = (
 
-    <br>
+        request.user.is_superuser or
+        ticket.created_by == request.user or
+        ticket.assigned_to == request.user
 
-    <form method="POST">
+    )
 
-        {% csrf_token %}
+    if not allowed:
 
-        {% for field in form %}
+        messages.error(
 
-            <div class="form-group">
+            request,
+            'You are not allowed to edit this ticket.'
 
-                <label>{{ field.label }}</label>
+        )
 
-                <br>
+        return redirect('ticket_list')
 
-                {{ field }}
+    if request.method == 'POST':
 
-                {% if field.errors %}
+        form = TicketForm(
 
-                    <div class="error-message">
+            request.POST,
+            instance=ticket,
+            user=request.user
 
-                        {% for error in field.errors %}
+        )
 
-                            <p>{{ error }}</p>
+        if form.is_valid():
 
-                        {% endfor %}
+            form.save()
 
-                    </div>
+            messages.success(
 
-                {% endif %}
+                request,
+                'Ticket updated successfully.'
 
-            </div>
+            )
 
-            <br>
+            return redirect('ticket_list')
 
-        {% endfor %}
+    else:
 
-        <button type="submit">
-            Update Ticket
-        </button>
+        form = TicketForm(
 
-    </form>
+            instance=ticket,
+            user=request.user
 
-</div>
+        )
 
-{% endblock %}
+    return render(request, 'tasks/update_ticket.html', {
 
+        'form': form
+
+    })
+
+    

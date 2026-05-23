@@ -118,7 +118,12 @@ def create_ticket(request):
 
     if request.method == 'POST':
 
-        form = TicketForm(request.POST, user=request.user)
+        form = TicketForm(
+
+            request.POST,
+            user=request.user
+
+        )
 
         if form.is_valid():
 
@@ -126,20 +131,24 @@ def create_ticket(request):
 
             ticket.created_by = request.user
 
-            # STANDARD USER AUTO ASSIGNED TO SELF
-            if not request.user.is_superuser:
-
-                ticket.assigned_to = request.user
-
             ticket.save()
 
-            messages.success(request, 'Ticket created successfully.')
+            messages.success(
+
+                request,
+                'Ticket created successfully.'
+
+            )
 
             return redirect('ticket_list')
 
     else:
 
-        form = TicketForm(user=request.user)
+        form = TicketForm(
+
+            user=request.user
+
+        )
 
     return render(request, 'tasks/create_ticket.html', {
 
