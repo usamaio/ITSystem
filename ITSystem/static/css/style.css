@@ -12,39 +12,80 @@ body{
 }
 
 /* NAVBAR */
+.navbar {
 
-.navbar{
-    background:#1e293b;
-    color:white;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:15px 40px;
-    flex-wrap:wrap;
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    background-color: #1e293b;
+
+    padding: 15px 30px;
+
 }
 
-.logo a{
-    color:white;
-    text-decoration:none;
-    font-size:22px;
-    font-weight:bold;
+.nav-left {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
 }
 
-.nav-links{
-    display:flex;
-    align-items:center;
-    gap:15px;
+.nav-right {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
 }
 
-.nav-links a{
-    color:white;
-    text-decoration:none;
-    font-weight:bold;
+.navbar a {
+
+    color: white;
+
+    text-decoration: none;
+
+    font-weight: bold;
+
 }
 
-.nav-links a:hover{
-    color:#38bdf8;
+.user-display {
+
+    color: white;
+
+    font-size: 14px;
+
 }
+
+.navbar form {
+
+    margin: 0;
+
+}
+
+.navbar button {
+
+    background: none;
+
+    border: none;
+
+    color: white;
+
+    cursor: pointer;
+
+    font-weight: bold;
+
+    font-size: 16px;
+
+}
+
 
 /* CONTAINER */
 

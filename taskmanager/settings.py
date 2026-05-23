@@ -89,6 +89,11 @@ DATABASES = {
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
 
+
+AUTH_PASSWORD_VALIDATORS = []
+
+""" 
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -103,6 +108,8 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+"""
 
 
 # Internationalization
@@ -140,11 +147,11 @@ STATICFILES_DIRS = [
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 JAZZMIN_SETTINGS = {
-"site_title": "Usama ITSystem Admin",
-"site_header": "Usama ITSystem Management",
-"site_brand": "Usama ITSystem",
-"welcome_sign": "Welcome to Usama ITSystem",
-"copyright": "Usama IT Management",
+"site_title": "Usama IT System Admin",
+"site_header": "Usama IT System Management",
+"site_brand": "Usama IT System",
+"welcome_sign": "Welcome to Usama IT System",
+"copyright": "Usama IT System 2026",
 "show_sidebar": True,
 "navigation_expanded": True,
 "icons": {

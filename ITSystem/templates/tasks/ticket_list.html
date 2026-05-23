@@ -65,23 +65,38 @@
                 {{ ticket.created_by }}
             </p>
 
-            <!-- SHOW BUTTONS ONLY TO OWNER OR ADMIN -->
+            {% if ticket.assigned_to %}
 
-            {% if request.user == ticket.created_by or request.user.is_superuser %}
+                <p>
+                    <strong>Assigned To:</strong>
+                    {{ ticket.assigned_to }}
+                </p>
 
-                <div class="ticket-actions">
+            {% endif %}
 
+            <div class="ticket-actions">
+
+                <!-- EDIT BUTTON -->
+            
+                {% if request.user.is_superuser or request.user == ticket.created_by or request.user == ticket.assigned_to %}
+            
                     <a href="/tickets/update/{{ ticket.id }}/">
                         Edit
                     </a>
-
+            
+                {% endif %}
+            
+                <!-- DELETE BUTTON -->
+            
+                {% if request.user.is_superuser or request.user == ticket.created_by %}
+            
                     <a href="/tickets/delete/{{ ticket.id }}/">
                         Delete
                     </a>
-
-                </div>
-
-            {% endif %}
+            
+                {% endif %}
+            
+            </div>
 
         </div>
 
@@ -104,3 +119,4 @@
 {% endif %}
 
 {% endblock %}
+

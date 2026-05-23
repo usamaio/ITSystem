@@ -1,6 +1,7 @@
 {% load static %}
 
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
@@ -9,7 +10,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>IT Support Ticket System</title>
+    <title>Usama's IT System</title>
 
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
@@ -17,35 +18,63 @@
 
 <body>
 
+    <!-- NAVBAR -->
+
     <nav class="navbar">
 
-        <div class="logo">
-            <a href="/">IT Support System</a>
-        </div>
+        <div class="nav-left">
 
-        <div class="nav-links">
+            <a href="/dashboard/">
+                Usama's IT System
+            </a>
 
             {% if user.is_authenticated %}
 
-                <a href="/dashboard/">Dashboard</a>
+                <span class="user-display">
 
-                <a href="/tickets/">Tickets</a>
+                    👤 {{ user.username }}
 
-                <a href="/tickets/create/">Create Ticket</a>
+                </span>
 
-                <form method="POST" action="/accounts/logout/" class="logout-form">
+            {% endif %}
+
+        </div>
+
+        <div class="nav-right">
+
+            {% if user.is_authenticated %}
+
+                <a href="/tickets/">
+                    Tickets
+                </a>
+
+                <a href="/tickets/create/">
+                    Create Ticket
+                </a>
+
+                <a href="/accounts/password_change/">
+                    Change Password
+                </a>
+
+                <form action="/accounts/logout/" method="POST">
 
                     {% csrf_token %}
 
-                    <button type="submit">Logout</button>
+                    <button type="submit">
+                        Logout
+                    </button>
 
                 </form>
 
             {% else %}
 
-                <a href="/register/">Register</a>
+                <a href="/accounts/login/">
+                    Login
+                </a>
 
-                <a href="/accounts/login/">Login</a>
+                <a href="/register/">
+                    Register
+                </a>
 
             {% endif %}
 
@@ -53,38 +82,31 @@
 
     </nav>
 
+    <!-- MESSAGES -->
+
     {% if messages %}
 
-        <div class="container">
+        {% for message in messages %}
 
-            {% for message in messages %}
+            <div class="message">
 
-                <div class="message {{ message.tags }}">
+                {{ message }}
 
-                    {{ message }}
+            </div>
 
-                </div>
-
-            {% endfor %}
-
-        </div>
+        {% endfor %}
 
     {% endif %}
+
+    <!-- PAGE CONTENT -->
 
     <div class="container">
 
         {% block content %}
+
         {% endblock %}
 
     </div>
-
-    <footer class="footer">
-
-        <p>
-            MSc Task Management System Project — Django Based IT Support System
-        </p>
-
-    </footer>
 
 </body>
 

@@ -24,7 +24,12 @@ def register(request):
 
             form.save()
 
-            messages.success(request, 'Account created successfully.')
+            messages.success(
+
+                request,
+                'Account created successfully.'
+
+            )
 
             return redirect('login')
 
@@ -32,7 +37,17 @@ def register(request):
 
         form = UserCreationForm()
 
-    return render(request, 'registration/register.html', {'form': form})
+    return render(
+
+        request,
+        'registration/register.html',
+        {
+
+            'form': form
+
+        }
+
+    )
 
 
 # DASHBOARD
@@ -101,15 +116,21 @@ def ticket_list(request):
 
         tickets = Ticket.objects.filter(
             assigned_to=request.user
+        ) | Ticket.objects.filter(
+            created_by=request.user
         )
 
-    context = {
+    return render(
 
-        'tickets': tickets
+        request,
+        'tasks/ticket_list.html',
+        {
 
-    }
+            'tickets': tickets.distinct()
 
-    return render(request, 'tasks/ticket_list.html', context)
+        }
+
+    )
 
 
 # CREATE TICKET
@@ -150,26 +171,44 @@ def create_ticket(request):
 
         )
 
-    return render(request, 'tasks/create_ticket.html', {
+    return render(
 
-        'form': form
+        request,
+        'tasks/create_ticket.html',
+        {
 
-    })
+            'form': form
 
+        }
+
+    )
 
 
 # UPDATE TICKET
 @login_required
-def update_ticket(request, pk):
+def update_ticket(request, id):
 
-    ticket = get_object_or_404(Ticket, id=pk)
+    ticket = get_object_or_404(Ticket, id=id)
 
-    if not request.user.is_superuser and ticket.created_by != request.user:
+    # CHECK PERMISSION
+    if not (
 
-        messages.error(request, 'You are not allowed to edit this ticket.')
+        request.user.is_superuser or
+        request.user == ticket.created_by or
+        request.user == ticket.assigned_to
+
+    ):
+
+        messages.error(
+
+            request,
+            'You are not allowed to edit this ticket.'
+
+        )
 
         return redirect('ticket_list')
 
+    # UPDATE FORM
     if request.method == 'POST':
 
         form = TicketForm(
@@ -184,7 +223,12 @@ def update_ticket(request, pk):
 
             form.save()
 
-            messages.success(request, 'Ticket updated successfully.')
+            messages.success(
+
+                request,
+                'Ticket updated successfully.'
+
+            )
 
             return redirect('ticket_list')
 
@@ -197,11 +241,17 @@ def update_ticket(request, pk):
 
         )
 
-    return render(request, 'tasks/update_ticket.html', {
+    return render(
 
-        'form': form
+        request,
+        'tasks/update_ticket.html',
+        {
 
-    })
+            'form': form
+
+        }
+
+    )
 
 
 # DELETE TICKET
@@ -210,9 +260,21 @@ def delete_ticket(request, pk):
 
     ticket = get_object_or_404(Ticket, id=pk)
 
-    if not request.user.is_superuser:
+    allowed = (
 
-        messages.error(request, 'Only admin can delete tickets.')
+        request.user.is_superuser or
+        ticket.created_by == request.user
+
+    )
+
+    if not allowed:
+
+        messages.error(
+
+            request,
+            'You are not allowed to delete this ticket.'
+
+        )
 
         return redirect('ticket_list')
 
@@ -220,13 +282,24 @@ def delete_ticket(request, pk):
 
         ticket.delete()
 
-        messages.success(request, 'Ticket deleted successfully.')
+        messages.success(
+
+            request,
+            'Ticket deleted successfully.'
+
+        )
 
         return redirect('ticket_list')
 
-    return render(request, 'tasks/delete_ticket.html', {
+    return render(
 
-        'ticket': ticket
+        request,
+        'tasks/delete_ticket.html',
+        {
 
-    })
+            'ticket': ticket
+
+        }
+
+    )
 
