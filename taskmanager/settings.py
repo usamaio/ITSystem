@@ -137,7 +137,6 @@ LOGOUT_REDIRECT_URL = 'home'
 
 
 
-
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
@@ -151,7 +150,7 @@ JAZZMIN_SETTINGS = {
 "site_header": "Usama IT System Management",
 "site_brand": "Usama IT System",
 "welcome_sign": "Welcome to Usama IT System",
-"copyright": "Usama IT System 2026",
+"copyright": "Usama IT System",
 "show_sidebar": True,
 "navigation_expanded": True,
 "icons": {

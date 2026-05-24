@@ -7,6 +7,7 @@ from .models import Ticket
 from .forms import TicketForm
 
 
+
 # HOME PAGE
 def home(request):
 
@@ -114,23 +115,65 @@ def ticket_list(request):
 
     else:
 
-        tickets = Ticket.objects.filter(
-            assigned_to=request.user
-        ) | Ticket.objects.filter(
-            created_by=request.user
+        tickets = (
+
+            Ticket.objects.filter(
+                created_by=request.user
+            )
+
+            |
+
+            Ticket.objects.filter(
+                assigned_to=request.user
+            )
+
+        ).distinct()
+
+    # CUSTOM ORDERING
+
+    priority_order = {
+
+        'High': 1,
+        'Medium': 2,
+        'Low': 3
+
+    }
+
+    tickets = sorted(
+
+        tickets,
+
+        key=lambda ticket: (
+
+            # RESOLVED ALWAYS LAST
+            ticket.status == 'Resolved',
+
+            # PRIORITY
+            priority_order.get(ticket.priority, 99),
+
+            # OPEN BEFORE IN PROGRESS
+            ticket.status == 'In Progress',
+
+            # NEWEST FIRST
+            -ticket.id
+
         )
+
+    )
 
     return render(
 
         request,
         'tasks/ticket_list.html',
+
         {
 
-            'tickets': tickets.distinct()
+            'tickets': tickets
 
         }
 
     )
+
 
 
 # CREATE TICKET
